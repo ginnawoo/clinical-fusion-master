@@ -1,0 +1,2 @@
+charttime,heartrate,sysbp,diasbp,meanbp,resprate,tempc,spo2,icustay_id,subject_id,aniongap,albumin,bands,bicarbonate,bilirubin,creatinine,chloride,glucose,hematocrit,hemoglobin,lactate,platelet,potassium,ptt,inr,pt,sodium,bun,wbc
+6,,,,,,,,,60039.0,14.0,4.1,,27.0,2.0,1.0,100.0,123.0,38.2,14.0,,199.0,4.2,23.8,1.0,11.7,137.0,14.0,6.9
