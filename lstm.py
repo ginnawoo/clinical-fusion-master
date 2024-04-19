@@ -8,7 +8,7 @@ from torch.autograd import *
 import numpy as np
 
 import sys
-sys.path.append('../tools')
+sys.path.append('./tools')
 import parse, py_op
 
 output_size = 1

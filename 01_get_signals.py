@@ -21,6 +21,7 @@ def get_signals(start_hr, end_hr):
     df_lab = pd.read_csv('./data/mimic/lab.csv',
                          parse_dates=['charttime'])
     df = df.merge(df_lab, on=['hadm_id', 'charttime'], how='outer')
+    df.drop('admittime', axis = 1, inplace = True)
     df = df.merge(df_adm[['hadm_id', 'admittime']], on='hadm_id')
     df['charttime'] = ((df.charttime - df.admittime) / np.timedelta64(1, 'h'))
     df['charttime'] = df['charttime'].apply(np.ceil) + 1
@@ -30,6 +31,7 @@ def get_signals(start_hr, end_hr):
     df = df.drop(['admittime', 'hr'], axis=1)
     na_thres = 3
     df = df.dropna(thresh=na_thres)
+    df['hadm_id'] = df['hadm_id'].astype(int)
     df.to_csv('./data/processed/features.csv', index=None)
 
 

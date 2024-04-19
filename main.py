@@ -46,10 +46,11 @@ args.task = 'mortality'
 args.files_dir = args.files_dir
 args.data_dir = args.data_dir
 
-def _cuda(tensor, is_tensor=True):
+def _cuda(tensor, is_tensor=False): # maybe no need to modify,  only due to my tensor version
     if args.gpu:
         if is_tensor:
-            return tensor.cuda(async=True)
+            # return tensor.cuda(async=True)
+            return tensor.cuda() # # maybe no need to modify,  only due to my tensor version
         else:
             return tensor.cuda()
     else:

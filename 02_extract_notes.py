@@ -17,7 +17,6 @@ def extract_early(df_notes, early_categories):
     df_early = df_notes[df_notes['category'].isin(early_categories)]
     df_early['hr'] = (df_early['charttime'] - df_early['admittime']) / np.timedelta64(1, 'h')
     df_early = df_early[df_early['hr'] <= 24]
-    # df_early = df_early.groupby('hadm_id').head(12).reset_index()
     df_early = df_early.sort_values(['hadm_id', 'hr'])
     df_early['text'] = df_early['text'].apply(clean_text)
     df_early[['hadm_id', 'hr', 'category', 'text']].to_csv('./data/processed/earlynotes.csv', index=None)
@@ -37,7 +36,7 @@ if __name__ == '__main__':
     args = parse_args()
     print('Reading data...')
     early_categories = ['Nursing', 'Nursing/other', 'Physician ', 'Radiology']
-    df_notes = pd.read_csv('./data/mimic/NOTEEVENTS.csv', parse_dates=['CHARTTIME'])
+    df_notes = pd.read_csv('../clinical-fusion/data/mimic/NOTEEVENTS.csv', parse_dates=['CHARTTIME'], low_memory=False)
     df_notes.columns = map(str.lower, df_notes.columns)
     df_notes = df_notes[df_notes['iserror'].isnull()]
     df_notes = df_notes[~df_notes['hadm_id'].isnull()]

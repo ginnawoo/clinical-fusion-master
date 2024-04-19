@@ -138,6 +138,9 @@ def get_ids(split_json):
     train_ids = [adm_id[-10:-4] for adm_id in train_ids]
     val_ids = [adm_id[-10:-4] for adm_id in val_ids]
     test_ids = [adm_id[-10:-4] for adm_id in test_ids]
+    # train_ids = [int(id) for id in train_ids]
+    # test_ids = [int(id) for id in test_ids]
+    # val_ids = [int(id) for id in val_ids]
     return train_ids, val_ids, test_ids
 
 

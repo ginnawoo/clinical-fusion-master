@@ -79,6 +79,9 @@ if __name__ == '__main__':
     train_ids = np.intersect1d(train_ids, df['hadm_id'].tolist())
     test_ids = np.intersect1d(test_ids, df['hadm_id'].tolist())
 
+    train_ids_int = [int(id) for id in train_ids]
+    test_ids_int = [int(id) for id in test_ids]
+
     choices = '{0:b}'.format(inputs).rjust(3, '0')
     X_train, X_test = [], []
 
@@ -102,26 +105,41 @@ if __name__ == '__main__':
                                 for col in df_temporal.columns.values]
         df_temporal.fillna(0, inplace=True)
         df_temporal = df_temporal.reset_index().sort_values('hadm_id')
+
         df_temporal_cols = df_temporal.columns[1:]
-        X_train_temporal = df_temporal[df_temporal['hadm_id'].isin(train_ids)][df_temporal_cols].to_numpy()
-        X_test_temporal = df_temporal[df_temporal['hadm_id'].isin(test_ids)][df_temporal_cols].to_numpy()
+
+        X_train_temporal = df_temporal[df_temporal['hadm_id'].isin(train_ids_int)][df_temporal_cols].to_numpy()
+        X_test_temporal = df_temporal[df_temporal['hadm_id'].isin(test_ids_int)][df_temporal_cols].to_numpy()
+
         X_train.append(X_train_temporal)
         X_test.append(X_test_temporal)
     if choices[2] == '1':
         print('Loading demographics...')
         demo_json = json.load(open('data/processed/files/demo_dict.json'))
         df_demo = pd.DataFrame(demo_json.items(), columns=['hadm_id', 'demos']).sort_values('hadm_id')
-        X_train_demo = df_demo[df_demo['hadm_id'].isin(train_ids)][['demos']].to_numpy()
-        X_test_demo = df_demo[df_demo['hadm_id'].isin(test_ids)][['demos']].to_numpy()
+
+        X_train_demo = df_demo[df_demo['hadm_id'].isin(train_ids)][['demos']]
+        X_test_demo = df_demo[df_demo['hadm_id'].isin(test_ids)][['demos']]
+        X_train_demo[['c1', 'c2', 'c3', 'c4', 'c5', 'c6']] = pd.DataFrame(X_train_demo.demos.tolist(), index=X_train_demo.index)
+        X_train_demo = X_train_demo[['c1', 'c2', 'c3', 'c4', 'c5', 'c6']]
+        X_test_demo[['c1', 'c2', 'c3', 'c4', 'c5', 'c6']] = pd.DataFrame(X_test_demo.demos.tolist(), index=X_test_demo.index)
+        X_test_demo = X_test_demo[['c1', 'c2', 'c3', 'c4', 'c5', 'c6']]
+
+
+        X_train_demo = X_train_demo.to_numpy()
+        X_test_demo = X_test_demo.to_numpy()
+
         X_train.append(X_train_demo)
         X_test.append(X_test_demo)
     
     print('Done.')
     df_cols = df.columns[1:]
+
     X_train = np.concatenate(X_train, axis=1)
     X_test = np.concatenate(X_test, axis=1)
-    y_train = df[df['hadm_id'].isin(train_ids)][df_cols].to_numpy()
-    y_test = df[df['hadm_id'].isin(test_ids)][df_cols].to_numpy()
+ 
+    y_train = df[df['hadm_id'].isin(train_ids_int)][df_cols].to_numpy()
+    y_test = df[df['hadm_id'].isin(test_ids_int)][df_cols].to_numpy()
 
     if model == 'all':
         train_test_base(X_train, X_test, y_train, y_test, 'lr')
