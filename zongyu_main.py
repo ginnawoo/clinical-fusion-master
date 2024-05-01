@@ -24,7 +24,8 @@ import myloss
 import function
 from utils import cal_metric
 import argparse
-sys.path.append('./tools')
+# sys.path.append('./tools')
+# ALSO Commented out the parse code in ./tools
 import py_op
 def parse_args():
     parser = argparse.ArgumentParser()
