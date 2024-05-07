@@ -26,7 +26,13 @@ To use the files in Google Colab, you need to upload them to your Google Drive.
 ## Using Google Colab
 Follow the steps to run the notebook in Google Colab: CS589_DLH_Team_42.ipynb
 
+##Video Link
+Access the final video on our [Google Drive](https://drive.google.com/file/d/1BVIy6CsBgDwwZGVncorLIWvREpODn_1L/view?usp=sharing).
+
 ## Authors
 - Ginna Woo
 - Zongyu Li
 - Xuanwei Liu
+
+## Acknowledgments
+We would like to extend our deepest gratitude to Professor Chufan Gao and Siddhartha Laghuvarapu + TAs for their invaluable guidance and support throughout this course. This project would not be possible without their dedication and the environment they've fostered.
