@@ -24,7 +24,7 @@ To use the files in Google Colab, you need to upload them to your Google Drive.
 3. Upload the cloned repository: Drag and drop the "clinical-fusion-master" folder to Google Drive.
 
 ## Using Google Colab
-Follow the steps to run the notebook in Google Colab: CS589_DLH_Team_42.ipynb
+Follow the steps to run the notebook in Google Colab: **CS589_DLH_Team_42_Final.ipynb**
 
 ## Video Link
 Access the final video on our [Google Drive](https://drive.google.com/file/d/1BVIy6CsBgDwwZGVncorLIWvREpODn_1L/view?usp=sharing).
