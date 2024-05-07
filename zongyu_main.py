@@ -1,4 +1,3 @@
-import sys
 
 import os
 import sys
@@ -25,13 +24,14 @@ import function
 from utils import cal_metric
 import argparse
 # sys.path.append('./tools')
-# ALSO Commented out the parse code in ./tools
+
 import py_op
+
 def parse_args():
     parser = argparse.ArgumentParser()
     
     # parser.add_argument('--inputs', type=int, default=4) # 3: T + S, 4: U, 7: U + T + S
-    parser.add_argument('--data-dir', type=str, default='./data/processed', help='data dir')
+    parser.add_argument('--data-dir', type=str, default='./data', help='data dir')
     parser.add_argument('--task', type=str, default='mortality') # mortality, readmit, or llos
     parser.add_argument('--last_time', type=int, default=-4)
     parser.add_argument('--time_range', type=int, default=10000)
@@ -63,6 +63,10 @@ def parse_args():
     parser.add_argument('--use_unstructure', type=int, default=1)
     parser.add_argument('--value_embedding', type=str, default='use_order')
     args = parser.parse_args()
+    args.data_dir = os.path.join(args.data_dir, 'processed')
+    args.files_dir = os.path.join(args.data_dir, 'files')
+    args.resample_dir = os.path.join(args.data_dir, 'resample_data')
+    args.initial_dir = os.path.join(args.data_dir, 'initial_data')
     return args
 
 
@@ -127,8 +131,9 @@ def train_eval(data_loader, net, loss, epoch, optimizer, best_metric, phase='tra
         demo = Variable(_cuda(demo)) 
         content = Variable(_cuda(content)) 
         label = Variable(_cuda(label)) 
-        output = net(data, dtime, demo, content) # [bs, 1]
-        # output = net(data, dtime, demo) # [bs, 1]
+        
+        # output = net(data, dtime, demo, content) # [bs, 1]
+        output = net(data, dtime, demo) # [bs, 1]
 
 
 
@@ -170,7 +175,7 @@ def train_eval(data_loader, net, loss, epoch, optimizer, best_metric, phase='tra
     return best_metric
 
 
-def main():
+def main(args):
     args.n_ehr = len(json.load(open(os.path.join(args.files_dir, 'demo_index_dict.json'), 'r'))) + 10
     args.name_list = json.load(open(os.path.join(args.files_dir, 'feature_list.json'), 'r'))[1:]
     args.input_size = len(args.name_list)
@@ -234,24 +239,27 @@ def main():
     elif args.phase == 'test':
         train_eval(test_loader, net, loss, 0, optimizer, best_metric, 'test')
 
+
+
 if __name__ == '__main__':
     # print(args)
-    args = parse_args()
+    #args = parse_args()
     # args = parse.args
-    args.embed_size = 200
-    args.unstructure_size = 200
-    args.hidden_size = args.rnn_size = args.embed_size 
-    if torch.cuda.is_available():
-        args.gpu = 1
-    else:
-        args.gpu = 0
+    # args.embed_size = 200
+    # args.unstructure_size = 200
+    # args.hidden_size = args.rnn_size = args.embed_size 
+    # if torch.cuda.is_available():
+    #     args.gpu = 1
+    # else:
+    #     args.gpu = 0
 
-    args.use_ve = 1
-    args.n_visit = 24
-    args.use_unstructure = 1
-    args.value_embedding = 'use_order'
-    # args.value_embedding = 'no'
-    print ('epochs,', args.epochs)
-    print(args)
+    # args.use_ve = 1
+    # args.n_visit = 24
+    # # args.use_unstructure = args.use_unstructure
+    # args.value_embedding = 'use_order'
+    # # args.value_embedding = 'no'
+    # print ('epochs,', args.epochs)
+    # print(args)
+    args = parse_args()
 
-    main()
+    main(args)
