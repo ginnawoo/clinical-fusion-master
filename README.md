@@ -36,3 +36,5 @@ Access the final video on our [Google Drive](https://drive.google.com/file/d/1BV
 
 ## Acknowledgments
 We would like to extend our deepest gratitude to Professor Chufan Gao and Siddhartha Laghuvarapu + TAs for their invaluable guidance and support throughout this course. This project would not be possible without their dedication and the environment they've fostered.
+
+*Copyright Notices: For the protection of copyright and to ensure compliance with legal standards, this repository utilizes only the file names and does not host, display, or distribute the actual data. All examples, code, and references within this repository strictly involve file names as placeholders. Users are advised to adhere to copyright laws when using actual data corresponding to these file names.*
